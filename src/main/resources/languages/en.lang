@@ -1,0 +1,60 @@
+pesel.empty = Pesel cannot be empty
+pesel.invalid.format = Pesel has invalid format
+name.empty = Name cannot be empty
+surname.empty = Surname cannot be empty
+gender.empty = Gender has to be specified
+city.empty = City cannot be empty
+street.empty = Street cannot be empty
+postalCode.empty = Postal code cannot be empty
+postalCode.invalid.format = Postal code has invalid format
+postCity.empty = Post city code cannot be empty
+citizen.empty = Cannot identify citizen
+citizen.id.notexists = Citizen with such id not exists
+#User
+email.empty = Email cannot be empty
+password.empty = Password cannot be empty
+email.invalid.format = Email has invalid format
+userid.empty = Cannot identify user
+user.email.exists = User with such email already exists
+user.id.notexists = User with such id not exists
+
+drugid.empty = There is no drug
+drugid.invalid = Invalid drug id
+drug.name.empty = Name cannot be empty
+drug.commonName.empty = Common name cannot be empty
+drug.ean.empty = EAN cannot be empty
+drug.refund.incorrect.format = Refund percentage has to be value from 0 to 100
+drug.name.exists = Drug with such name already exists
+drug.id.notexists = Drug with such id not exists
+
+doctor.userId.empty = There is no portal user to assign
+doctor.userId.invalid = Invalid portal user id
+doctor.doctorid.invalid = Invalid doctor id
+doctor.doctorid.empty = There is no doctor to edit
+doctor.userid.notexist = User with this id is not exist
+doctor.notexist = Doctor with this id does not exists
+doctor.user.taken = Given portal user already is a doctor
+
+user.userid.empty = There is no user
+user.userid.invalid = Invalid user id
+user.citizen.empty = There is no citizen
+user.citizen.invalid = Invalid citizen id
+user.userId.invalid = Invalid portal user id
+user.userId.empty = There is no portal user
+user.userid.notexists = Given user does not exists
+user.citizen.notexists = Given citizen does not exists
+user.user.alreadyassigned = Given user has already one portal user assigned
+user.citizen.alreadyassigned = Given user has already one portal user assigned
+user.user.exists = This user has one portal user assigned already
+user.citizen.exists = This citizen has one portal user assigned already
+user.notexists = There is no such portal user
+
+patient.id.empty = There is no patient
+patient.id.invalid = Invalid patient id
+patient.notexists = Given patient does not exists
+patient.userId.empty = There is no portal user
+patient.userId.invalid = Invalid portal user id
+patient.doctorid.invalid = Invalid doctor id
+patient.user.notexists = Given portal user does not exists
+patient.doctor.notexists = Given doctor does not exists
+patient.user.haspatient = Given portal user has a patient already
