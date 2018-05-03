@@ -13,12 +13,14 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.DefaultServletHandlerConfigurer;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+import media.config.security.SecurityCorsFilter;
 
 @Configuration
 @ComponentScan("media")
@@ -37,13 +39,13 @@ public class SpringConfiguration extends WebMvcConfigurerAdapter {
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
 		boolean local = false;
 		if (local) {
-			dataSource.setUrl("XXX");
-			dataSource.setUsername("XXX");
-			dataSource.setPassword("XXX");
+			dataSource.setUrl("jdbc:mysql://192.168.1.11:3306/media?useUnicode=yes&characterEncoding=UTF-8&useSSL=true");
+			dataSource.setUsername("root");
+			dataSource.setPassword("superniepewnetohaslopowiemwam");
 		} else {
-			dataSource.setUrl("XXX");
-			dataSource.setUsername("XXX");
-			dataSource.setPassword("XXX");
+			dataSource.setUrl("jdbc:mysql://37.187.180.163:3306/media?useUnicode=yes&characterEncoding=UTF-8&useSSL=true");
+			dataSource.setUsername("root");
+			dataSource.setPassword("motznehaslo");
 		}
 		
 		return dataSource;
@@ -87,7 +89,12 @@ public class SpringConfiguration extends WebMvcConfigurerAdapter {
 	
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
-		registry.addMapping("/**").allowedMethods("HEAD", "GET", "PUT", "POST", "DELETE", "PATCH");
+		registry.addMapping("/**").allowedMethods("*").allowCredentials(true).allowedHeaders("*");
+	}
+	
+	@Bean(name = "corsFilter")
+	public SecurityCorsFilter corsFilter() {
+		return new SecurityCorsFilter();
 	}
 	
 }

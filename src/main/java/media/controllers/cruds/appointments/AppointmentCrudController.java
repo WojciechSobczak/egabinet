@@ -70,8 +70,8 @@ public class AppointmentCrudController extends BaseController {
 				Appointment appointment = new Appointment();
 				appointment.setDoctor(doctor);
 				appointment.setPatient(patient);
-				appointment.setStart(appointmentAddForm.getStart());
-				appointment.setEnd(appointmentAddForm.getEnd());
+				appointment.setStart(appointmentAddForm.convertStartDate());
+				appointment.setEnd(appointmentAddForm.convertEndDate());
 				
 				crudResponse.setAddedAppointmentId(appointmentService.save(appointment));
 			} catch (Exception e) {
@@ -115,8 +115,8 @@ public class AppointmentCrudController extends BaseController {
 				
 				appointment.setDoctor(doctor);
 				appointment.setPatient(patient);
-				appointment.setStart(appointmentEditForm.getStart());
-				appointment.setEnd(appointmentEditForm.getEnd());
+				appointment.setStart(appointmentEditForm.convertStartDate());
+				appointment.setEnd(appointmentEditForm.convertEndDate());
 				
 				appointmentService.saveOrUpdate(appointment);
 				

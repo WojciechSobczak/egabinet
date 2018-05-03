@@ -31,7 +31,7 @@ public class UserEditForm extends UserAddForm {
 	public User toUser() {
 		User user = super.toUser();
 		user.setId(userId);
-		user.setActive(active == null ? true : active);
+		user.setActive(true);
 		user.setPassword(password);
 		user.setEmail(email);
 		return user;

@@ -60,6 +60,7 @@ public class DoctorCrudController extends BaseController {
 				}
 				
 				Doctor newDoctor = new Doctor();
+				newDoctor.setUser(user);
 				Long doctorId = doctorService.save(newDoctor);
 				crudResponse.setAddedDoctorId(doctorId);
 				newDoctor.setId(doctorId);
@@ -103,6 +104,8 @@ public class DoctorCrudController extends BaseController {
 							userService.update(doctorOwner);
 						}
 						user.setDoctor(oldDoctor);
+						oldDoctor.setUser(user);
+						doctorService.update(oldDoctor);
 						userService.update(user);
 					}
 				}

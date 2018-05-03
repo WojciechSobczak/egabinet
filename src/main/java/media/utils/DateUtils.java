@@ -3,6 +3,7 @@ package media.utils;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
+import java.util.Date;
 
 public class DateUtils {
 	
@@ -15,6 +16,10 @@ public class DateUtils {
 			return null;
 		}
 		return dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
+	}
+	
+	public static final LocalDateTime fromDate(Date in) {
+		return LocalDateTime.ofInstant(in.toInstant(), ZoneId.systemDefault());
 	}
 	
 }

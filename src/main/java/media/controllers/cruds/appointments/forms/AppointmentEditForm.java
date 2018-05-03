@@ -15,9 +15,9 @@ public class AppointmentEditForm extends AppointmentAddForm {
 	@Override
 	public Map<String, String> validate(String languageCode) {
 		Map<String, String> messages = super.validate(languageCode);
-		if (doctorId == null) {
+		if (appointmentId == null) {
 			messages.put("appointmentId", MultilanguageService.getMessage(languageCode, "appointment.appointmentId.empty"));
-		} else if (doctorId <= 0) {
+		} else if (appointmentId <= 0) {
 			messages.put("appointmentId", MultilanguageService.getMessage(languageCode, "appointment.appointmentId.invalid"));
 		}
 		

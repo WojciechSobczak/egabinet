@@ -92,4 +92,33 @@ public class UserDao extends BaseDao<Long, User> implements IUserDao {
 		}
 	}
 
+	@Override
+	public List<User> getAdmins() {
+		Query query = createQuery("FROM User u WHERE u.admin = true");
+		return query.getResultList();
+	}
+
+	@Override
+	public List<User> getDoctors() {
+		Query query = createQuery("FROM User u WHERE u.doctor.id IS NOT NULL");
+		return query.getResultList();
+	}
+
+	@Override
+	public List<User> getPatients() {
+		Query query = createQuery("FROM User u WHERE u.patient.id IS NOT NULL");
+		return query.getResultList();
+	}
+
+	@Override
+	public User getByPatientId(Long id) {
+		Query query = createQuery("FROM User u WHERE u.patient.id = :id");
+		query.setParameter("id", id);
+		try {
+			return (User) query.getSingleResult();
+		} catch (NoResultException e) {
+			return null;
+		}
+	}
+
 }

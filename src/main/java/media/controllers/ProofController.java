@@ -26,56 +26,57 @@ public class ProofController {
 	
 	@Autowired 
 	private ISecurityService securityService;
-	
+//	
 	@RequestMapping(value = "/createAdmin", method = RequestMethod.GET)
-	public User createAdmin() {
+	public String createAdmin() {
 		String username = "admin@admin.com";
 		String password = "admin";
 		User oldUser = userService.getByEmailAndHashedPassword(username, securityService.hashPassword(password));
 		if (oldUser != null) {
-			return null;
+			return "Już istnieje!";
 		}
 		
 		User user = new User();
 		user.setName("Mikołaj");
 		user.setSurname("Skrzetuski");
-		user.setSecondName("Adam");
-		user.setCity("Zbaraż");
-		user.setGender(Gender.MALE);
-		user.setPesel("80030714179");
-		user.setPostalCode("25-658");
-		user.setPostCity("Zbaraż");
-		user.setStreet("Twierdzowa 25");
+		user.setAdmin(true);
+//		user.setSecondName("Adam");
+//		user.setCity("Zbaraż");
+//		user.setGender(Gender.MALE);
+//		user.setPesel("80030714179");
+//		user.setPostalCode("25-658");
+//		user.setPostCity("Zbaraż");
+//		user.setStreet("Twierdzowa 25");
 		user.setCreationDate(LocalDateTime.now());
 		user.setEmail(username);
 		user.setPassword(securityService.hashPassword(password));
 		user.setActive(true);
 		user.setId(userService.save(user));
 		
-		return user;
+		return "Udało się!";
 	}
-	
-	@RequestMapping(value = "/removeAdmin", method = RequestMethod.GET)
-	public String removeAdmin() {
-		String username = "admin@admin.com";
-		String password = "admin";
-		User oldUser = userService.getByEmailAndHashedPassword(username, securityService.hashPassword(password));
-		if (oldUser == null) {
-			return "Nie istnieje";
-		}
-		userService.delete(oldUser);
-		return "Udało się";
-	}
-	
-	@RequestMapping(value = "/getToken", method = RequestMethod.GET)
-	public Token getToken(@RequestParam("id") Long id) {
-		return tokenService.getById(id);
-	}
-	
-	@RequestMapping(value = "/getUser", method = RequestMethod.GET)
-	public User getUser(@RequestParam("id") Long id) {
-		return userService.getById(id);
-	}
+//	
+//	@RequestMapping(value = "/removeAdmin", method = RequestMethod.GET)
+//	public String removeAdmin() {
+//		String username = "admin@admin.com";
+//		String password = "admin";
+//		User oldUser = userService.getByEmailAndHashedPassword(username, securityService.hashPassword(password));
+//		if (oldUser == null) {
+//			return "Nie istnieje";
+//		}
+//		userService.delete(oldUser);
+//		return "Udało się";
+//	}
+//	
+//	@RequestMapping(value = "/getToken", method = RequestMethod.GET)
+//	public Token getToken(@RequestParam("id") Long id) {
+//		return tokenService.getById(id);
+//	}
+//	
+//	@RequestMapping(value = "/getUser", method = RequestMethod.GET)
+//	public User getUser(@RequestParam("id") Long id) {
+//		return userService.getById(id);
+//	}
 	
 	
 }

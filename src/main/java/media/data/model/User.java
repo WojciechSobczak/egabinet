@@ -4,6 +4,7 @@ package media.data.model;
 import java.time.LocalDateTime;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -31,31 +32,15 @@ public class User extends NumericIdBasedEntity {
 	private LocalDateTime creationDate;
 	private boolean active;
 	
-	private String pesel;
 	private String name;
-	private String secondName;
 	private String surname;
 	
-	@Enumerated(EnumType.STRING)
-	private Gender gender;
-	
-	private String city;
-	private String street;
-	private String postalCode;
-	private String postCity;
-	
-	@Enumerated(EnumType.STRING)
-	private Vovoidship vovoidship;
-	
-	@JsonIgnore //WYWALIĆ
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
 	private Set<Token> tokens;
 	
-	@JsonIgnore //WYWALIĆ
 	@OneToOne(fetch = FetchType.LAZY)
 	private Doctor doctor;
 	
-	@JsonIgnore //WYWALIĆ
 	@OneToOne(fetch = FetchType.LAZY)
 	private Patient patient;
 	

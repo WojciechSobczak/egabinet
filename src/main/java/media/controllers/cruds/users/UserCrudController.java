@@ -98,11 +98,6 @@ public class UserCrudController extends BaseController {
 				if (StringUtils.isNotEmpty(newUser.getEmail()) && !oldUser.getEmail().equals(newUser.getEmail())) {
 					oldUser.setEmail(newUser.getEmail());
 				}
-				
-				if (userEditForm.getActive() != null) {
-					oldUser.setActive(newUser.isActive());
-				}
-				
 				userService.update(oldUser);
 			} catch (Exception e) {
 				crudResponse.setValid(false);
@@ -130,8 +125,12 @@ public class UserCrudController extends BaseController {
 				crudResponse.getMessages().put("patient", MultilanguageService.getMessage(getLanguageCode(), "user.delete.patientexists"));
 			}
 			
-			userService.delete(id);
-			crudResponse.setValid(crudResponse.getMessages().size() == 0);
+			if (crudResponse.getMessages().size() == 0) {
+				userService.delete(id);
+			} else {
+				crudResponse.setValid(false);
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			crudResponse.setValid(false);

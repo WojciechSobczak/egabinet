@@ -18,6 +18,9 @@ public class SecurityConfig extends WebMvcConfigurerAdapter {
 	@Autowired
 	private ITokenService tokenService;
 	
+	@Autowired
+	private IUserService userService;
+	
 	public static final boolean SWAGGER = true;
 	public static final boolean BACKEND_TEST = false;
 	
@@ -32,34 +35,20 @@ public class SecurityConfig extends WebMvcConfigurerAdapter {
 				"/getToken",
 				"/getUser")
 		);
+		
 		if (SWAGGER) {
 			exludePaths.add("/swagger-ui.html");
 			exludePaths.add("/swagger-resources/**");
 			exludePaths.add("/v2/**");
 		}
 		
-		if (BACKEND_TEST) {
-			exludePaths.add("/**");
-		}
-		
-		registry.addInterceptor(new SecurityInterceptor(tokenService))
+		registry.addInterceptor(new SecurityInterceptor(tokenService, userService))
 			.addPathPatterns("/**")
 			.excludePathPatterns(exludePaths.toArray(new String[exludePaths.size()]));
+		registry.addInterceptor(new AdminSecurityInterceptor()).addPathPatterns("/admin/**");
+		registry.addInterceptor(new DoctorSecurityInterceptor()).addPathPatterns("/doctor/**");
+		registry.addInterceptor(new PatientSecurityInterceptor()).addPathPatterns("/patient/**");
 		
-		InterceptorRegistration registation = 	registry.addInterceptor(new AdminSecurityInterceptor())
-				.addPathPatterns("/admin/**");
-		if (BACKEND_TEST) {
-			registation.excludePathPatterns(exludePaths.toArray(new String[exludePaths.size()]));
-		}
-		registation = registry.addInterceptor(new DoctorSecurityInterceptor()).addPathPatterns("/doctor/**");
-		if (BACKEND_TEST) {
-			registation.excludePathPatterns(exludePaths.toArray(new String[exludePaths.size()]));
-		}
-		registation = registry.addInterceptor(new PatientSecurityInterceptor())
-				.addPathPatterns("/patient/**");
-		if (BACKEND_TEST) {
-			registation.excludePathPatterns(exludePaths.toArray(new String[exludePaths.size()]));
-		}
 		super.addInterceptors(registry);
 	}
 	

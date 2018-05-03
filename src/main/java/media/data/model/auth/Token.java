@@ -41,8 +41,7 @@ public class Token extends NumericIdBasedEntity {
 	private LocalDateTime accessTokenExpDate;
 	private LocalDateTime refreshTokenExpDate;
 
-	@JsonIgnore //WYWALIĆ
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private User user;
 	
 	public static final long ACCESS_TOKEN_VALID_TIME = 60;

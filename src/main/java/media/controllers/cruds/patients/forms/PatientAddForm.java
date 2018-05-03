@@ -3,11 +3,12 @@ package media.controllers.cruds.patients.forms;
 import java.util.HashMap;
 import java.util.Map;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import media.controllers.Validateable;
 import media.service.MultilanguageService;
 
-@Data
+@Getter @Setter
 public class PatientAddForm implements Validateable {
 	
 	protected Long userId;

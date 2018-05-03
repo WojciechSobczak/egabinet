@@ -1,6 +1,9 @@
 package media.controllers.cruds.appointments.forms;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -8,6 +11,7 @@ import lombok.Data;
 import media.controllers.Validateable;
 import media.data.model.Appointment;
 import media.service.MultilanguageService;
+import media.utils.DateUtils;
 
 @Data
 public class AppointmentAddForm implements Validateable {
@@ -15,8 +19,8 @@ public class AppointmentAddForm implements Validateable {
 	protected Long doctorId;
 	protected Long patientId;
 	
-	protected LocalDateTime start;
-	protected LocalDateTime end;
+	protected String start;
+	protected String end;
 
 	@Override
 	public Map<String, String> validate(String languageCode) {
@@ -40,8 +44,22 @@ public class AppointmentAddForm implements Validateable {
 			messages.put("end", MultilanguageService.getMessage(languageCode, "appointment.end.empty"));
 		}
 		
-		if (start != null && end != null) {
-			if (start.isAfter(end)) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:MM:yyyy hh:mm:ss");
+		LocalDateTime startDate = null;
+		LocalDateTime endDate = null;
+		try {
+			startDate = DateUtils.fromDate(simpleDateFormat.parse(start));
+		} catch (Exception e) {
+			messages.put("start", MultilanguageService.getMessage(languageCode, "appointment.start.invalidformat"));
+		}
+		try {
+			endDate = DateUtils.fromDate(simpleDateFormat.parse(end));
+		} catch (Exception e) {
+			messages.put("end", MultilanguageService.getMessage(languageCode, "appointment.end.invalidformat"));
+		}
+		
+		if (startDate != null && endDate != null) {
+			if (startDate.isAfter(endDate)) {
 				messages.put("start", MultilanguageService.getMessage(languageCode, "appointment.start.afterend"));
 				messages.put("end", MultilanguageService.getMessage(languageCode, "appointment.end.beforestart"));
 			}
@@ -49,5 +67,14 @@ public class AppointmentAddForm implements Validateable {
 		return messages;
 	}
 	
+	public LocalDateTime convertStartDate() throws ParseException {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:MM:yyyy hh:mm:ss");
+		return DateUtils.fromDate(simpleDateFormat.parse(start));
+	}
+	
+	public LocalDateTime convertEndDate() throws ParseException {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:MM:yyyy hh:mm:ss");
+		return DateUtils.fromDate(simpleDateFormat.parse(start));
+	}
 
 }

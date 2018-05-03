@@ -49,4 +49,24 @@ public class UserService extends BaseService<Long, User> implements IUserService
 		return userDao.getByDoctorId(id);
 	}
 
+	@Override
+	public List<User> getAdmins() {
+		return userDao.getAdmins();
+	}
+
+	@Override
+	public List<User> getDoctors() {
+		return userDao.getDoctors();
+	}
+
+	@Override
+	public List<User> getPatients() {
+		return userDao.getPatients();
+	}
+
+	@Override
+	public User getByPatientId(Long id) {
+		return userDao.getByPatientId(id);
+	}
+
 }

@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.Info;
 import lombok.Getter;
 import lombok.Setter;
 import media.controllers.BaseController;
@@ -36,7 +38,7 @@ public class PatientCrudController extends BaseController {
 		private Long addedPatientId;
 	}
 	
-	@RequestMapping(value = "/admin/patient/add", method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(value = "/doctor/patient/add", method = RequestMethod.POST, consumes = "application/json")
 	public PatientCrudResponse add(@RequestBody PatientAddForm patientAddForm) {
 		if (patientAddForm == null) {
 			patientAddForm = new PatientAddForm();
@@ -51,16 +53,17 @@ public class PatientCrudController extends BaseController {
 			try {
 				User user = userService.getById(patientAddForm.getUserId());
 				if (user == null) {
-					messages.put("portalUser", MultilanguageService.getMessage(getLanguageCode(), "patient.portaluser.notexists"));
+					messages.put("user", MultilanguageService.getMessage(getLanguageCode(), "patient.user.notexists"));
 					throw new IllegalArgumentException();
 				}
 				
 				if (user.hasPatient()) {
-					messages.put("portalUser", MultilanguageService.getMessage(getLanguageCode(), "patient.portaluser.haspatient"));
+					messages.put("user", MultilanguageService.getMessage(getLanguageCode(), "patient.user.haspatient"));
 					throw new IllegalArgumentException();
 				}
 				
 				Patient patient = new Patient();
+				patient.setUser(user);
 				Long patientId = patientService.save(patient);
 				patient.setId(patientId);
 				
@@ -76,7 +79,7 @@ public class PatientCrudController extends BaseController {
 		return crudResponse;
 	}
 	
-	@RequestMapping(value = "/admin/patient/edit", method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(value = "/doctor/patient/edit", method = RequestMethod.POST, consumes = "application/json")
 	public CrudResponse add(@RequestBody PatientEditForm patientEditForm) {
 		if (patientEditForm == null) {
 			patientEditForm = new PatientEditForm();
@@ -112,6 +115,8 @@ public class PatientCrudController extends BaseController {
 						userService.update(patientOwner);
 					}
 					user.setPatient(oldPatient);
+					oldPatient.setUser(user);
+					patientService.update(oldPatient);
 					userService.update(user);
 				} 
 			} catch (Exception e) {
@@ -121,7 +126,7 @@ public class PatientCrudController extends BaseController {
 		return crudResponse;
 	}
 	
-	@RequestMapping(value = "/admin/patient/delete", method = RequestMethod.POST, consumes = "application/json")
+	@RequestMapping(value = "/doctor/patient/delete", method = RequestMethod.POST, consumes = "application/json")
 	public CrudResponse delete(@RequestBody Long id) {
 		CrudResponse crudResponse = new CrudResponse();
 		try {
