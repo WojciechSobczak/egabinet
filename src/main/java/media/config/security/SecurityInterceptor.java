@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import media.config.SpringConfiguration;
 import media.controllers.exceptions.HttpBadRequest;
 import media.controllers.exceptions.HttpForbidden;
 import media.data.model.auth.Token;
@@ -26,7 +27,7 @@ public class SecurityInterceptor extends HandlerInterceptorAdapter {
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-		if (!SecurityConfig.BACKEND_TEST) {
+		if (!SpringConfiguration.BACKEND_TEST) {
 			String secToken = request.getHeader("Authorization");
 			if (secToken == null) {
 				throw new HttpBadRequest();

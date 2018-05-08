@@ -35,7 +35,7 @@ public class User extends NumericIdBasedEntity {
 	private String name;
 	private String surname;
 	
-	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private Set<Token> tokens;
 	
 	@OneToOne(fetch = FetchType.LAZY)
@@ -52,6 +52,15 @@ public class User extends NumericIdBasedEntity {
 	
 	public boolean hasDoctor() {
 		return doctor != null && doctor.getId() != null;
+	}
+	
+	public void getBasicParams(User user) {
+		this.email = user.getEmail();
+		this.password = user.getPassword();
+		this.active = user.isActive();
+		this.admin = user.isAdmin();
+		this.name = user.getName();
+		this.surname = user.getSurname();
 	}
 	
 }

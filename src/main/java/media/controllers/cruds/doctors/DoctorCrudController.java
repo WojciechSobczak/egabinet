@@ -17,6 +17,7 @@ import media.controllers.cruds.doctors.forms.DoctorEditForm;
 import media.data.model.Doctor;
 import media.data.model.User;
 import media.service.MultilanguageService;
+import media.service.appointment.IAppointmentService;
 import media.service.doctor.IDoctorService;
 import media.service.user.IUserService;
 
@@ -33,6 +34,9 @@ public class DoctorCrudController extends BaseController {
 	
 	@Autowired
 	private IUserService userService;
+	
+	@Autowired
+	private IAppointmentService appointmentService;
 	
 	@RequestMapping(value = "/admin/doctor/add", method = RequestMethod.POST, consumes = "application/json")
 	public DoctorCrudResponse add(@RequestBody DoctorAddForm doctorAddForm) {
@@ -122,10 +126,18 @@ public class DoctorCrudController extends BaseController {
 		try {
 			Doctor doctor = doctorService.getById(id);
 			if (doctor == null) {
-				crudResponse.getMessages().put("id", MultilanguageService.getMessage(getLanguageCode(), "doctor.userid.notexist"));
+				crudResponse.getMessages().put("id", MultilanguageService.getMessage(getLanguageCode(), "doctor.id.notexist"));
 				crudResponse.setValid(false);
 			} else {
+				User user = userService.getByDoctorId(id);
+				if (user != null) {
+					user.setDoctor(null);
+					userService.update(user);
+				}
+				
+				appointmentService.deleteByDoctor(id);
 				doctorService.delete(id);
+				crudResponse.setValid(true);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

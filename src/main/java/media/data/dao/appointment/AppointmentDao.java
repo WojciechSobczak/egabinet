@@ -37,12 +37,8 @@ public class AppointmentDao extends BaseDao<Long, Appointment> implements IAppoi
 		}
 		
 		String queryString = "FROM Appointment a ";
-		if (patientId != null) {
-			queryString += "LEFT JOIN FETCH a.patient p ";
-		}
-		if (doctorId != null) {
-			queryString += "LEFT JOIN FETCH a.doctor d ";
-		}
+		queryString += "LEFT JOIN FETCH a.patient p LEFT JOIN FETCH p.user pu ";
+		queryString += "LEFT JOIN FETCH a.doctor d LEFT JOIN FETCH d.user du ";
 		queryString += "WHERE ";
 
 		if (patientId != null) {
@@ -59,6 +55,12 @@ public class AppointmentDao extends BaseDao<Long, Appointment> implements IAppoi
 		
 		Query query = createQuery(queryString);
 		query.setMaxResults(1);
+		if (patientId != null) {
+			query.setParameter("patientId", patientId);
+		}
+		if (doctorId != null) {
+			query.setParameter("doctorId", doctorId);
+		}
 		List<Appointment> list = query.getResultList();
 		if (list == null && list.isEmpty()) {
 			return null;
@@ -102,6 +104,20 @@ public class AppointmentDao extends BaseDao<Long, Appointment> implements IAppoi
 				+ "ORDER BY start");
 		query.setParameter("patientId", id);
 		return query.getResultList();
+	}
+
+	@Override
+	public void deleteByPatient(Long id) {
+		Query query = createQuery("DELETE FROM Appointment a WHERE a.patient.id = :patientId");
+		query.setParameter("patientId", id);
+		query.executeUpdate();
+	}
+
+	@Override
+	public void deleteByDoctor(Long id) {
+		Query query = createQuery("DELETE FROM Appointment a WHERE a.doctor.id = :doctorId");
+		query.setParameter("doctorId", id);
+		query.executeUpdate();
 	}
 
 }

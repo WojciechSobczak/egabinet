@@ -17,10 +17,10 @@ import media.data.model.base.NumericIdBasedEntity;
 @Table(name = "appointments")
 public class Appointment extends NumericIdBasedEntity {
 	
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Doctor doctor;
 
-	@ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@ManyToOne(fetch = FetchType.LAZY)
 	private Patient patient;
 	
 	private LocalDateTime start;

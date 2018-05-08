@@ -87,18 +87,14 @@ public class UserCrudController extends BaseController {
 					crudResponse.getMessages().put("user", MultilanguageService.getMessage(getLanguageCode(), "user.id.notexists"));
 					throw new IllegalStateException();
 				}
-				
 				if (StringUtils.isNotEmpty(newUser.getPassword())) {
 					newUser.setPassword(securityService.hashPassword(newUser.getPassword()));
-					if (!oldUser.getPassword().equals(newUser.getPassword())) {
-						oldUser.setPassword(newUser.getPassword());
-					}
 				}
-				
-				if (StringUtils.isNotEmpty(newUser.getEmail()) && !oldUser.getEmail().equals(newUser.getEmail())) {
-					oldUser.setEmail(newUser.getEmail());
-				}
+				oldUser.getBasicParams(newUser);
 				userService.update(oldUser);
+				if (getLoggedUser().getId().equals(oldUser.getId())) {
+					setLoggedUser(oldUser);
+				}
 			} catch (Exception e) {
 				crudResponse.setValid(false);
 			}

@@ -20,6 +20,7 @@ import media.data.model.Doctor;
 import media.data.model.Patient;
 import media.data.model.User;
 import media.service.MultilanguageService;
+import media.service.appointment.IAppointmentService;
 import media.service.doctor.IDoctorService;
 import media.service.patient.IPatientService;
 import media.service.user.IUserService;
@@ -32,6 +33,9 @@ public class PatientCrudController extends BaseController {
 	
 	@Autowired
 	private IUserService userService;
+	
+	@Autowired
+	private IAppointmentService appointmentService;
 	
 	@Getter @Setter
 	public static class PatientCrudResponse extends CrudResponse {
@@ -135,6 +139,13 @@ public class PatientCrudController extends BaseController {
 				crudResponse.getMessages().put("id", MultilanguageService.getMessage(getLanguageCode(), "patient.userid.notexist"));
 				crudResponse.setValid(false);
 			} else {
+				crudResponse.setValid(true);
+				User user = userService.getByPatientId(id);
+				if (user != null) {
+					user.setPatient(null);
+					userService.update(user);
+				}
+				appointmentService.deleteByPatient(id);
 				patientService.delete(id);
 			}
 		} catch (Exception e) {

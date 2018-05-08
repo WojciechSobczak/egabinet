@@ -16,6 +16,7 @@ import media.utils.DateUtils;
 @Data
 public class AppointmentAddForm implements Validateable {
 	
+	private static final String DATE_FORMAT_STRING = "dd.MM.yyyy HH:mm:ss";
 	protected Long doctorId;
 	protected Long patientId;
 	
@@ -44,7 +45,7 @@ public class AppointmentAddForm implements Validateable {
 			messages.put("end", MultilanguageService.getMessage(languageCode, "appointment.end.empty"));
 		}
 		
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:MM:yyyy hh:mm:ss");
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT_STRING);
 		LocalDateTime startDate = null;
 		LocalDateTime endDate = null;
 		try {
@@ -68,13 +69,13 @@ public class AppointmentAddForm implements Validateable {
 	}
 	
 	public LocalDateTime convertStartDate() throws ParseException {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:MM:yyyy hh:mm:ss");
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT_STRING);
 		return DateUtils.fromDate(simpleDateFormat.parse(start));
 	}
 	
 	public LocalDateTime convertEndDate() throws ParseException {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd:MM:yyyy hh:mm:ss");
-		return DateUtils.fromDate(simpleDateFormat.parse(start));
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat(DATE_FORMAT_STRING);
+		return DateUtils.fromDate(simpleDateFormat.parse(end));
 	}
 
 }

@@ -6,7 +6,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.Getter;
-import media.config.security.SecurityConfig;
+import lombok.Setter;
+import media.config.SpringConfiguration;
 import media.config.security.SecurityInterceptor;
 import media.data.model.User;
 import media.data.model.auth.Token;
@@ -17,7 +18,7 @@ public class BaseController {
 	@Getter
 	private String languageCode;
 	
-	@Getter
+	@Getter @Setter
 	private User loggedUser;
 	
 	@Getter
@@ -39,7 +40,7 @@ public class BaseController {
 	}
 	
 	public boolean isLoggedUserAdmin() {
-		if (SecurityConfig.BACKEND_TEST) {
+		if (SpringConfiguration.BACKEND_TEST) {
 			return true;
 		}
 		

@@ -27,6 +27,12 @@ import media.config.security.SecurityCorsFilter;
 @EnableTransactionManagement
 @EnableWebMvc
 public class SpringConfiguration extends WebMvcConfigurerAdapter {
+	
+	public static final boolean LOCAL = false;
+	public static final boolean BACKEND_TEST = false;
+	
+	public static final boolean SWAGGER = true;
+	
 
 	@Override
 	public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {
@@ -37,8 +43,8 @@ public class SpringConfiguration extends WebMvcConfigurerAdapter {
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-		boolean local = false;
-		if (local) {
+		
+		if (LOCAL) {
 			dataSource.setUrl("jdbc:mysql://192.168.1.11:3306/media?useUnicode=yes&characterEncoding=UTF-8&useSSL=true");
 			dataSource.setUsername("root");
 			dataSource.setPassword("superniepewnetohaslopowiemwam");

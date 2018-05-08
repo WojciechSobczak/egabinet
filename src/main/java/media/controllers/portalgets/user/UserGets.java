@@ -53,9 +53,7 @@ public class UserGets extends BaseController {
 		if (appointment == null) {
 			return null;
 		}
-		User rehab = userService.getByDoctorId(doctorId);
-		User patient = userService.getByPatientId(patientId);
-		return new AppointmentJSON(appointment, rehab, patient);
+		return new AppointmentJSON(appointment);
 	}
 	
 	@RequestMapping(value = { "/admin/get/appointments" }, method = RequestMethod.POST)

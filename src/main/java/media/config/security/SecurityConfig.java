@@ -9,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistration
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
+import media.config.SpringConfiguration;
 import media.service.token.ITokenService;
 import media.service.user.IUserService;
 
@@ -21,8 +22,6 @@ public class SecurityConfig extends WebMvcConfigurerAdapter {
 	@Autowired
 	private IUserService userService;
 	
-	public static final boolean SWAGGER = true;
-	public static final boolean BACKEND_TEST = false;
 	
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
@@ -36,7 +35,7 @@ public class SecurityConfig extends WebMvcConfigurerAdapter {
 				"/getUser")
 		);
 		
-		if (SWAGGER) {
+		if (SpringConfiguration.SWAGGER) {
 			exludePaths.add("/swagger-ui.html");
 			exludePaths.add("/swagger-resources/**");
 			exludePaths.add("/v2/**");

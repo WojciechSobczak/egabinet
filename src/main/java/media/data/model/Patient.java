@@ -23,7 +23,7 @@ public class Patient extends NumericIdBasedEntity {
 	@ManyToMany(fetch = FetchType.LAZY)
 	private Set<Doctor> doctors;
 	
-	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "patient", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
 	private Set<Appointment> appointments;
 	
 	@OneToOne(fetch = FetchType.LAZY)

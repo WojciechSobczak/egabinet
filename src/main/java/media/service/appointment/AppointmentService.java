@@ -45,4 +45,15 @@ public class AppointmentService extends BaseService<Long, Appointment> implement
 		return appointmentDao.getPatientSortedList(id);
 	}
 
+	@Override
+	public void deleteByPatient(Long id) {
+		appointmentDao.deleteByPatient(id);
+	}
+		
+
+	@Override
+	public void deleteByDoctor(Long id) {
+		appointmentDao.deleteByDoctor(id);
+	}
+
 }
