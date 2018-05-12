@@ -19,4 +19,6 @@ public interface IAppointmentDao extends IBaseDao<Long, Appointment> {
 
 	public void deleteByDoctor(Long id);
 
+	public Appointment getByIdWithEverything(Long id);
+
 }

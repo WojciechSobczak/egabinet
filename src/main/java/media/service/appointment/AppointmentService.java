@@ -56,4 +56,9 @@ public class AppointmentService extends BaseService<Long, Appointment> implement
 		appointmentDao.deleteByDoctor(id);
 	}
 
+	@Override
+	public Appointment getByIdWithEverything(Long id) {
+		return appointmentDao.getByIdWithEverything(id);
+	}
+
 }

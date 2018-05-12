@@ -18,5 +18,7 @@ public interface IAppointmentService extends IBaseService<Long, Appointment> {
 	public void deleteByPatient(Long id);
 
 	public void deleteByDoctor(Long id);
+	
+	public Appointment getByIdWithEverything(Long id);
 
 }

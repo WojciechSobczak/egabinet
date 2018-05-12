@@ -85,6 +85,5 @@ public class UserGets extends BaseController {
 	public List<UserJSON> getAll() {
 		return UserJSON.getList(userService.getList());
 	}
-	
 
 }

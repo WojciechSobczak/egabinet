@@ -75,7 +75,6 @@ public class AppointmentCrudController extends BaseController {
 				
 				crudResponse.setAddedAppointmentId(appointmentService.save(appointment));
 			} catch (Exception e) {
-				e.printStackTrace();
 				crudResponse.setValid(false);
 			}
 		}
@@ -138,6 +137,7 @@ public class AppointmentCrudController extends BaseController {
 				crudResponse.setValid(false);
 			} else {
 				appointmentService.delete(id);
+				crudResponse.setValid(true);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -29,6 +29,22 @@ public class AppointmentDao extends BaseDao<Long, Appointment> implements IAppoi
 	protected Session getSession() {
 		return this.sessionFactory.getCurrentSession();
 	}
+	
+	
+	@Override
+	public Appointment getByIdWithEverything(Long id) {
+		if (id == null) {
+			return null;
+		}
+		
+		String queryString = "FROM Appointment a LEFT JOIN FETCH a.patient p LEFT JOIN FETCH p.user pu ";
+		queryString += "LEFT JOIN FETCH a.doctor d LEFT JOIN FETCH d.user du WHERE a.id = :id";
+		
+		Query query = createQuery(queryString);
+		query.setParameter("id", id);
+		
+		return (Appointment) query.getSingleResult();
+	}
 
 	@Override
 	public Appointment getNearestAppointment(Long patientId, Long doctorId) {
@@ -62,7 +78,7 @@ public class AppointmentDao extends BaseDao<Long, Appointment> implements IAppoi
 			query.setParameter("doctorId", doctorId);
 		}
 		List<Appointment> list = query.getResultList();
-		if (list == null && list.isEmpty()) {
+		if (list == null || list.isEmpty()) {
 			return null;
 		} else {
 			return list.get(0);
